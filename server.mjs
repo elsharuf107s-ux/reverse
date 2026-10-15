@@ -13,6 +13,8 @@ const TARGETS = path.join(ROOT, 'targets');
 const OUTPUTS = path.join(ROOT, 'analysis-output');
 const REA = path.join(ROOT, 'node_modules', '.bin', 'rea');
 const PORT = Number(process.env.PORT || 3000);
+const MAX_UPLOAD_GB = Number(process.env.MAX_UPLOAD_GB || 8);
+const MAX_UPLOAD_BYTES = Math.floor(MAX_UPLOAD_GB * 1024 * 1024 * 1024);
 const env = {
   ...process.env,
   GHIDRA_INSTALL_DIR: process.env.GHIDRA_INSTALL_DIR || '/opt/ghidra_12.1.4_PUBLIC',
@@ -63,7 +65,7 @@ const storage = multer.diskStorage({
   destination: (_req, _file, cb) => cb(null, TARGETS),
   filename: (_req, file, cb) => cb(null, `${Date.now()}-${safeName(file.originalname)}`)
 });
-const upload = multer({ storage, limits: { fileSize: 2 * 1024 * 1024 * 1024 } });
+const upload = multer({ storage, limits: { fileSize: MAX_UPLOAD_BYTES, files: 1 } });
 
 app.use(express.json({ limit: '1mb' }));
 app.use(express.static(path.join(ROOT, 'public')));
@@ -82,7 +84,9 @@ app.get('/api/status', async (_req, res) => {
     java,
     ghidraInstallDir: env.GHIDRA_INSTALL_DIR,
     javaHome: env.JAVA_HOME,
-    defaultProvider: env.REA_ANALYSIS_PROVIDER
+    defaultProvider: env.REA_ANALYSIS_PROVIDER,
+    maxUploadBytes: MAX_UPLOAD_BYTES,
+    maxUploadGB: MAX_UPLOAD_GB
   });
 });
 
@@ -104,9 +108,12 @@ app.get('/api/targets', async (_req, res) => {
   res.json({ targets });
 });
 
-app.post('/api/upload', upload.single('file'), (req, res) => {
-  if (!req.file) return res.status(400).json({ error: 'Choose a file first.' });
-  res.json({ name: req.file.filename, size: req.file.size });
+app.post('/api/upload', (req, res, next) => {
+  upload.single('file')(req, res, error => {
+    if (error) return next(error);
+    if (!req.file) return res.status(400).json({ error: 'Choose a file first.' });
+    res.json({ name: req.file.filename, size: req.file.size, originalName: req.file.originalname });
+  });
 });
 
 app.get('/api/output/:name', async (req, res) => {
@@ -171,6 +178,7 @@ app.post('/api/analyze', async (req, res) => {
 
   child.on('close', code => {
     out.end();
+    if (res.headersSent) return;
     res.status(code === 0 ? 200 : 500).json({
       ok: code === 0,
       code,
@@ -182,6 +190,20 @@ app.post('/api/analyze', async (req, res) => {
   });
 });
 
+app.use((error, _req, res, _next) => {
+  console.error(error);
+  if (error instanceof multer.MulterError) {
+    if (error.code === 'LIMIT_FILE_SIZE') {
+      return res.status(413).json({
+        error: `File is too large for the Workbench upload limit (${MAX_UPLOAD_GB} GB). Put the file in targets/ from the Codespace file explorer/terminal, or raise MAX_UPLOAD_GB.`
+      });
+    }
+    return res.status(400).json({ error: `Upload failed: ${error.message}`, code: error.code });
+  }
+  res.status(error.status || 500).json({ error: error.message || 'Internal server error.' });
+});
+
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`REA Workbench listening on http://0.0.0.0:${PORT}`);
+  console.log(`Upload limit: ${MAX_UPLOAD_GB} GB`);
 });
