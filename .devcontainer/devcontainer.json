@@ -1,0 +1,15 @@
+{
+  "name": "Reverse Engineer Anything",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:1-24-bookworm",
+  "postCreateCommand": "npm install",
+  "remoteEnv": {
+    "NPM_CONFIG_UPDATE_NOTIFIER": "false"
+  },
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash"
+      }
+    }
+  }
+}
