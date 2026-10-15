@@ -1,0 +1,20 @@
+{
+  "name": "reverse-engineer-anything-workspace",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Codespaces-ready workspace for REA (Reverse Engineer Anything)",
+  "engines": {
+    "node": ">=24.11.0"
+  },
+  "scripts": {
+    "rea": "rea",
+    "rea:setup": "rea setup",
+    "rea:doctor": "rea doctor --json",
+    "rea:doctor:codex": "rea doctor --client codex --json",
+    "rea:mcp": "rea mcp",
+    "rea:analyze:js": "rea analyze-javascript-application"
+  },
+  "dependencies": {
+    "rea-agents": "6.5.0"
+  }
+}
