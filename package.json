@@ -9,7 +9,10 @@
   "scripts": {
     "rea": "rea",
     "rea:setup": "rea setup",
+    "rea:setup:vscode": "rea setup --client vscode",
+    "rea:setup:codex": "rea setup --client codex",
     "rea:doctor": "rea doctor --json",
+    "rea:doctor:vscode": "rea doctor --client vscode --json",
     "rea:doctor:codex": "rea doctor --client codex --json",
     "rea:mcp": "rea mcp",
     "rea:analyze:js": "rea analyze-javascript-application"
