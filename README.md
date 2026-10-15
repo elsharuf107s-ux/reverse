@@ -12,17 +12,31 @@ Upstream project: https://github.com/morluto/rea
 
 ## First-time REA setup
 
-Run:
+For a browser-based GitHub Codespace using VS Code, run:
+
+```bash
+npm run rea:setup:vscode
+```
+
+For Codex, run:
+
+```bash
+npm run rea:setup:codex
+```
+
+Or use the interactive client picker:
 
 ```bash
 npm run rea:setup
 ```
 
-REA will let you select/configure a supported agent and will show the configuration changes before applying them.
+REA shows the proposed configuration changes before applying them. Restart the selected agent/client after setup if REA asks you to.
 
-For Codex readiness checks:
+Then verify the client:
 
 ```bash
+npm run rea:doctor:vscode
+# or
 npm run rea:doctor:codex
 ```
 
@@ -32,7 +46,7 @@ For a general readiness report:
 npm run rea:doctor
 ```
 
-## Start the MCP server
+## Start the MCP server manually
 
 ```bash
 npm run rea:mcp
@@ -62,9 +76,12 @@ Native binary analysis needs a supported analysis provider such as Ghidra, Hoppe
 
 | Command | Purpose |
 | --- | --- |
-| `npm run rea:setup` | Configure REA for an agent/client |
-| `npm run rea:doctor` | Check REA readiness |
-| `npm run rea:doctor:codex` | Check Codex-specific readiness |
+| `npm run rea:setup:vscode` | Configure REA for VS Code/Codespaces |
+| `npm run rea:setup:codex` | Configure REA for Codex |
+| `npm run rea:setup` | Interactive REA client setup |
+| `npm run rea:doctor` | Check general REA readiness |
+| `npm run rea:doctor:vscode` | Check VS Code REA readiness |
+| `npm run rea:doctor:codex` | Check Codex REA readiness |
 | `npm run rea:mcp` | Start the REA MCP server |
 | `npm run rea:analyze:js -- <path> --json` | Analyze an extracted JS/Electron application |
 | `npm run rea -- --help` | Open the full REA CLI help |
