@@ -1,0 +1,147 @@
+{
+  "schemaVersion": 1,
+  "name": "REA Workbench — public application example",
+  "generatedAt": "2026-10-18T14:48:28.567Z",
+  "revision": {
+    "headCommit": null,
+    "worktree": "Working tree changes were not checked; HEAD is a reference, not proof of file identity.",
+    "sourceFingerprint": "f65b5bdac55aa24b53459636e09316e6283ffaef899cfaaa4bc72ffbf1a98d87"
+  },
+  "coverage": {
+    "complete": true,
+    "mode": "Read-only JS/TS static inventory; no project code executed",
+    "maxFiles": 5000,
+    "maxLines": 25000,
+    "omissions": {
+      "ignoredDirectories": 0,
+      "symlinks": 0,
+      "sensitiveNames": 0,
+      "oversizedFiles": 0,
+      "unsupportedFiles": 3
+    },
+    "warnings": [
+      "Sample scope: original server.mjs, package.json, public/, scripts/ and .github/ from elsharuf107s-ux/reverse. This Codebase Clarity prototype is excluded. Shell and HTML files are outside the automated JS/TS source inventory; the separate technical handover discusses them. This is not a client engagement."
+    ]
+  },
+  "summary": {
+    "files": 1,
+    "lines": 209,
+    "testFiles": 0,
+    "packages": 1,
+    "runtimeDependencies": 3,
+    "importHints": 2
+  },
+  "manifests": [
+    {
+      "path": "package.json",
+      "name": "reverse-engineer-anything-workspace",
+      "scripts": [
+        "ui",
+        "rea",
+        "rea:setup",
+        "rea:setup:vscode",
+        "rea:setup:codex",
+        "rea:doctor",
+        "rea:doctor:vscode",
+        "rea:doctor:codex",
+        "rea:providers",
+        "rea:mcp",
+        "rea:analyze:js"
+      ],
+      "engines": ">=24.11.0",
+      "entryPoints": [],
+      "dependencies": [
+        {
+          "name": "express",
+          "version": "^5.1.0",
+          "kind": "runtime"
+        },
+        {
+          "name": "multer",
+          "version": "^2.0.2",
+          "kind": "runtime"
+        },
+        {
+          "name": "rea-agents",
+          "version": "6.5.0",
+          "kind": "runtime"
+        }
+      ],
+      "devDependencies": []
+    }
+  ],
+  "files": [
+    {
+      "path": "server.mjs",
+      "lines": 209,
+      "bytes": 7392,
+      "sha256": "5cc6065bf575dcb76973806d282cbcc09bb868fbaa9f6dcf8d88bfaede6098ce",
+      "role": "Source",
+      "test": false
+    }
+  ],
+  "imports": [
+    {
+      "from": "server.mjs",
+      "specifier": "express",
+      "line": 1,
+      "kind": "package-or-builtin",
+      "to": null
+    },
+    {
+      "from": "server.mjs",
+      "specifier": "multer",
+      "line": 2,
+      "kind": "package-or-builtin",
+      "to": null
+    }
+  ],
+  "locks": [],
+  "ci": [
+    ".github/workflows/rea-smoke.yml"
+  ],
+  "findings": [
+    {
+      "id": "F01",
+      "priority": "Plan next",
+      "title": "No lockfile found for this package",
+      "observation": "No supported lockfile was inventoried alongside package.json or at the review root.",
+      "action": "Confirm the workspace/package-manager strategy. Preserve an approved lockfile for repeatable installs.",
+      "evidence": [
+        {
+          "path": "package.json",
+          "line": 1
+        }
+      ]
+    },
+    {
+      "id": "F02",
+      "priority": "Review first",
+      "title": "No test or check script declared",
+      "observation": "package.json has no script named test/check or starting with test:/check:. Other verification may exist.",
+      "action": "Ask the owner for the actual verification command and record an observed run before release.",
+      "evidence": [
+        {
+          "path": "package.json",
+          "line": 1
+        }
+      ]
+    },
+    {
+      "id": "F03",
+      "priority": "Review first",
+      "title": "No conventionally named tests inventoried",
+      "observation": "No source paths matched test/spec filenames or test directories in this scan.",
+      "action": "Locate external test suites or add a representative behavior test after agreeing scope.",
+      "evidence": []
+    }
+  ],
+  "limitations": [
+    "This automated draft requires human review before client delivery.",
+    "No application, test, build, dependency install, security scan or license review was executed.",
+    "Line counts include comments and blank lines. Generated code outside excluded directories may remain.",
+    "Import matches are lexical hints and can include comments or miss syntax, aliases and dynamic behavior.",
+    "Path-based role labels are hints, not confirmed architecture. No dependency version is certified current or vulnerable.",
+    "No secrets scanner was run. Sensitive filenames are skipped, but repository paths and package names can still be confidential. Review before sharing."
+  ]
+}

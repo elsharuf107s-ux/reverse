@@ -1,0 +1,8 @@
+reports/
+inquiries/
+*.log
+site/
+# Internal sales, prospect and subcontractor material stays local.
+sales/*
+!sales/client-offer.md
+!sales/sample-handover.md
