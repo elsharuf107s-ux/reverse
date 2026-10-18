@@ -1,0 +1,34 @@
+name: Codebase Clarity checks
+
+on:
+  push:
+    paths:
+      - 'client-ready/**'
+      - '.github/workflows/codebase-clarity-checks.yml'
+  pull_request:
+    paths:
+      - 'client-ready/**'
+      - '.github/workflows/codebase-clarity-checks.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Run scanner, CLI, HTTP and static export tests
+        run: node --test client-ready/test/*.test.mjs
+      - name: Build the public site
+        run: node client-ready/scripts/export-static.mjs --out "$RUNNER_TEMP/clarity-site" --base /reverse/
+      - name: Retain the deployable site
+        uses: actions/upload-artifact@v4
+        with:
+          name: codebase-clarity-site
+          path: ${{ runner.temp }}/clarity-site
+          include-hidden-files: true

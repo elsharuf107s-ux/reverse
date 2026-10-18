@@ -1,0 +1,8 @@
+{
+  "name": "codebase-clarity",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=24" },
+  "scripts": { "start": "node server.mjs", "sample": "node scripts/sample.mjs", "test": "node --test test/*.test.mjs", "test:browser": "node scripts/browser-smoke.mjs" }
+}
